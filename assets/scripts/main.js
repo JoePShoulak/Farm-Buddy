@@ -1,6 +1,8 @@
 // Global state variable -- this feels dirty
 var taskBeingEdited = null;
 
+var modal = $("#updateTaskModal");
+
 // Test data
 var testTask = {
     id: 1,
