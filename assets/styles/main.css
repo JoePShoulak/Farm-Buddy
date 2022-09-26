@@ -2,20 +2,34 @@
     outline: red solid 1px;
 }
 
+:root {
+    --bg-color: gray;
+    --primary-color: green;
+}
+
 body {
-    background-color: gray;
+    background-color: var(--bg-color);
 }
 
 header, footer {
-    background-color: green;
+    background-color: var(--primary-color);
     color: white;
 }
 
 main {
-    padding: 10px;
+    padding: 10git apx;
     background-color: white;
 }
 
 footer {
     justify-content: center;
+}
+
+div.task {
+    padding: 10px;
+    margin: 10px;
+}
+
+div.task button {
+    margin-top: 15px;
 }
