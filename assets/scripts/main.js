@@ -48,8 +48,14 @@ function taskClicked(event) {
     var button = $(event.target); // Grab our button (now that we know it is one)
     var taskElement = button.parent().parent(); // Grab our task element (the grandparent of the button)
 
+    // If we're updating a task...
     if (button.text() == "Update") {
-        taskBeingEdited = getIdFromTaskElement(taskElement);
+        taskBeingEdited = getIdFromTaskElement(taskElement); // Keep track of what we're editing
+
+        /* The rest of the task is updated by interacting with the modal that is 
+           automatically opened by clicking on any update button. When clicking 
+           "Save Changes" on the Update modal, the action of updating the object
+           data in the array (as well as re-rendering it in the DOM) is handled. */ 
     }
 }
 
