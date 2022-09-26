@@ -1,12 +1,15 @@
+/* == Wireframing == */
 * {
-    outline: red solid 1px;
+    /* outline: red solid 1px; */
 }
 
+/* == Variables == */
 :root {
     --bg-color: gray;
     --primary-color: green;
 }
 
+/* == Elements == */
 body {
     background-color: var(--bg-color);
 }
@@ -25,6 +28,8 @@ footer {
     justify-content: center;
 }
 
+
+/* == Classes == */
 div.task {
     padding: 10px;
     margin: 10px;
@@ -32,4 +37,8 @@ div.task {
 
 div.task button {
     margin-top: 15px;
+}
+
+div.task label {
+    display: block;
 }

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="./assets/styles/main.css" />
 
     <title>Farm Buddy</title>
@@ -19,7 +19,9 @@
         <div class="column col-6"></div>
 
         <div class="column col-3">
-            <h3>New Item</h3>
+            <button type="button" class="btn btn-primary">
+                New Task
+            </button>
         </div>
 
     </header>
@@ -37,24 +39,69 @@
 
         <section class="column col-8">
             <h3>Task List</h3>
-            <div class="row" id="task-list">
-                <div class="task column col-3">
-                    <h5>Task 1</h5>
-                    <p>Description: Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                    <div><label>Persons:</label> <span>1</span></div>
-                    <div><label>Weather:</label> <span>Warm</span></div>
-                    <div><label>Priority:</label> <span>Urgent</span></div>
-                    <div><label>Due Date:</label> <span>11/11/2022</span></div>
-                    <button>Complete</button>
-                    <button>Delete</button>
-                </div>
-            </div>
+            <div class="row" id="task-list"></div>
         </section>
+
+          <div class="modal fade" id="updateTaskModal" tabindex="-1" aria-labelledby="updateTaskModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="updateTaskModalLabel">New Task</h5>
+                  <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form>
+                        <!-- 2 column grid layout with text inputs for the first and last names -->
+                        <div class="row mb-4">
+                          <div class="col">
+                            <div class="form-outline">
+                              <input type="text" id="form-title" class="form-control" />
+                              <label class="form-label" for="form-title">Task Name</label>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-outline">
+                              <input type="date" id="form-due-date" class="form-control" />
+                              <label class="form-label" for="form-due-date">Due Date</label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Message input -->
+                        <div class="form-outline mb-4">
+                            <textarea class="form-control" id="form-description" rows="4"></textarea>
+                            <label class="form-label" for="form-description">Description</label>
+                        </div>
+                      
+                        <!-- Checkbox -->
+                        <div class="form-check d-flex justify-content-center mb-4">
+                          <input class="form-check-input me-2" type="checkbox" value="true" id="form-weather" checked />
+                          <label class="form-check-label" for="form-weather"> Fair Weather Project? </label>
+                        </div>
+                      
+                        <!-- Checkbox -->
+                        <div class="form-check d-flex justify-content-center mb-4">
+                          <input class="form-check-input me-2" type="checkbox" value="true" id="form-completed" checked />
+                          <label class="form-check-label" for="form-completed"> Completed? </label>
+                        </div>
+                      
+                    </form>             
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" id="form-submit">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
     </main>
 
     <footer class="row">
         Made by Joe Shoulak
     </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
     <script src="./assets/scripts/main.js"></script>
