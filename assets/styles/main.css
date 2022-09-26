@@ -1,3 +1,21 @@
 * {
     outline: red solid 1px;
 }
+
+body {
+    background-color: gray;
+}
+
+header, footer {
+    background-color: green;
+    color: white;
+}
+
+main {
+    padding: 10px;
+    background-color: white;
+}
+
+footer {
+    justify-content: center;
+}
