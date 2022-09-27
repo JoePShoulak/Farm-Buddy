@@ -6,6 +6,11 @@ var taskBeingEditedID = null;
 // Frequent DOM elements
 var taskListContainer = $("#task-list");
 
+// Filter states
+var filter = {
+    weather: false,
+}
+
 // Test data
 var testTask = {
     id: 1,
@@ -23,8 +28,8 @@ var testTask2 = {
     description: "Wassup Wassup Wassup Wassup Wassup.",
 
     dueDate: moment().format("YYYY-MM-DD"),
-    weather: true,
-    completed: false,
+    weather: false,
+    completed: true,
 }
 
 // Where we store all our tasks while working with them
@@ -142,12 +147,6 @@ function taskClicked(event) {
     }
 }
 
-/* == EVENT LISTENERS == */
-taskListContainer.on("click", taskClicked);
-$("#form-submit").on("click", updateTask);
-$("#new-task").on("click", newTask);
-$(".close-modal").on("click", filterOutTrashData)
-
 /* == RENDERING FUNCTIONS == */
 
 // Render simple label/span data in the DOM
@@ -180,7 +179,7 @@ function renderTask(task) {
                 .addClass("btn btn-secondary")
                 .text("Update")
                 .attr("data-mdb-toggle","modal")
-                .attr("data-mdb-target", "#updateTaskModal")
+                .attr("data-mdb-target", "#update-task-modal")
             )
             .append($("<button>").addClass("btn btn-secondary").text("Delete"))
     )
@@ -190,10 +189,42 @@ function renderTask(task) {
 function displayAllTasks() {
     taskListContainer.empty();
 
-    taskList.forEach(task => {
+    var filteredList;
+
+    if (filter.weather) {
+        filteredList = taskList.filter(t => t.weather);
+    } else {
+        filteredList = taskList;
+    }
+
+    filteredList.forEach(task => {
         taskListContainer.append(renderTask(task));
     });
 }
+
+function updateFilter(event) {
+    if (event.target.tagName != "INPUT") {return;} // If it's not an input, quit (probably redundant)
+    
+    switch (event.target.id) {
+        case "weather-filter":
+            filter.weather = $(event.target).is(":checked");
+            break;
+    
+        default:
+            break;
+    }
+
+    console.log(filter);
+
+    displayAllTasks();
+}
+
+/* == EVENT LISTENERS == */
+taskListContainer.on("click", taskClicked);
+$("#form-submit").on("click", updateTask);
+$("#new-task").on("click", newTask);
+$(".close-modal").on("click", filterOutTrashData);
+$(".filter").on("click", updateFilter);
 
 /* == INIT == */
 

@@ -19,7 +19,7 @@
         <div class="column col-6"></div>
 
         <div class="column col-3">
-            <button type="button" class="btn btn-primary" id="new-task" data-mdb-toggle="modal" data-mdb-target="#updateTaskModal">
+            <button type="button" class="btn btn-primary" id="new-task" data-mdb-toggle="modal" data-mdb-target="#update-task-modal">
                 New Task
             </button>
         </div>
@@ -29,11 +29,10 @@
     <main class="row">
         <section class="column col-4">
             <h3>Task Filter</h3>
-            <ul>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
+            <div class="form-check form-switch">
+                <input class="form-check-input filter" type="checkbox" role="switch" id="weather-filter" />
+                <label class="form-check-label" for="flexSwitchCheckDefault">Weather</label>
+            </div>
         </section>
 
         <section class="column col-8">
@@ -41,11 +40,11 @@
             <div class="row" id="task-list"></div>
         </section>
 
-          <div class="modal fade" id="updateTaskModal" tabindex="-1" aria-labelledby="updateTaskModalLabel" aria-hidden="true">
+          <div class="modal fade" id="update-task-modal" tabindex="-1" aria-labelledby="update-task-modal-label" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="updateTaskModalLabel">New Task</h5>
+                  <h5 class="modal-title" id="update-task-modal-label">New Task</h5>
                   <button type="button" class="btn-close close-modal" data-mdb-dismiss="modal" aria-label="Close"></button>
                 </div>
 
