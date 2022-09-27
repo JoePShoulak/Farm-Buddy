@@ -1,3 +1,5 @@
+/* == Global Variables == */
+
 // Global state variable -- this feels dirty
 var taskBeingEditedID = null;
 
@@ -25,25 +27,22 @@ var testTask2 = {
     completed: false,
 }
 
+// Where we store all our tasks while working with them
 var taskList = [testTask, testTask2];
 
-// Get the object data from the update form
-function getFormData() {
-    return {
-        title: $("#form-title").val(),
-        description: $("#form-description").val(),
-        id: taskBeingEditedID,
-    
-        dueDate: $("#form-due-date").val(),
-        weather: $("#form-weather").is(":checked"),
-        completed: $("#form-completed").is(":checked"),
-    };
-}
+/* == HELPER FUNCTIONS == */
 
 // Get the object id from an HTML element containing the data for a task object
 function getIdFromTaskElement(taskElement) {
     return taskElement.find(".id")[0].innerHTML;
 }
+
+// Read through the TaskList array and remove any data that has not been fully instantiated
+function filterOutTrashData() {
+   taskList = taskList.filter(t => t.title != undefined);
+}
+
+/* == FORM HANDLING FUNCTIONS == */
 
 // Populate the form with the data from the task object
 function autofillForm() {
@@ -67,6 +66,21 @@ function clearForm() {
     $("#form-completed").prop('checked', false);
 }
 
+// Get the object data from the update form
+function getFormData() {
+    return {
+        title: $("#form-title").val(),
+        description: $("#form-description").val(),
+        id: taskBeingEditedID,
+    
+        dueDate: $("#form-due-date").val(),
+        weather: $("#form-weather").is(":checked"),
+        completed: $("#form-completed").is(":checked"),
+    };
+}
+
+/* == MAIN EDITING FUNCTIONS - DELETE, COMPLETE, UPDATE, NEW == */
+
 // Delete the task with the specified ID
 function deleteTask() {
     taskList = taskList.filter(t => t.id != taskBeingEditedID);
@@ -74,30 +88,12 @@ function deleteTask() {
     displayAllTasks();
 }
 
+// Mark a task as complete
 function completeTask() {
     var taskListIndex = taskList.findIndex(e => e.id == taskBeingEditedID);
     taskList[taskListIndex].completed = true;
 
     displayAllTasks();
-}
-
-// The callback function for clicking a button on a task
-function taskClicked(event) {
-    if (event.target.tagName != "BUTTON") {return;} // if it's not a button, quit
-    
-    var button = $(event.target); // Grab our button (now that we know it is one)
-    var taskElement = button.parent().parent(); // Grab our task element (the grandparent of the button)
-
-    taskBeingEditedID = getIdFromTaskElement(taskElement); // Keep track of what we're editing
-    
-    // If we're updating a task...
-    if (button.text() == "Update") {
-        autofillForm(); // The task is updated by the submit form button of the modal opened by this same click action
-    } else if (button.text() == "Delete") {
-        deleteTask();
-    } else if (button.text() == "Complete") {
-        completeTask();
-    }
 }
 
 // Update the task object where it sits in the array
@@ -125,16 +121,34 @@ function newTask() {
     })
 }
 
-// Read through the TaskList array and remove any data that has not been fully instantiated
-function filterOutTrashData() {
-   taskList = taskList.filter(t => t.title != undefined);
+/* == MAIN ACTION-HANDLING FUNCTION == */
+
+// The callback function for clicking a button on a task
+function taskClicked(event) {
+    if (event.target.tagName != "BUTTON") {return;} // if it's not a button, quit
+    
+    var button = $(event.target); // Grab our button (now that we know it is one)
+    var taskElement = button.parent().parent(); // Grab our task element (the grandparent of the button)
+
+    taskBeingEditedID = getIdFromTaskElement(taskElement); // Keep track of what we're editing
+    
+    // If we're updating a task...
+    if (button.text() == "Update") {
+        autofillForm(); // The task is updated by the submit form button of the modal opened by this same click action
+    } else if (button.text() == "Delete") {
+        deleteTask();
+    } else if (button.text() == "Complete") {
+        completeTask();
+    }
 }
 
-// Event Listeners
+/* == EVENT LISTENERS == */
 taskListContainer.on("click", taskClicked);
 $("#form-submit").on("click", updateTask);
 $("#new-task").on("click", newTask);
 $(".close-modal").on("click", filterOutTrashData)
+
+/* == RENDERING FUNCTIONS == */
 
 // Render simple label/span data in the DOM
 function renderData(label, value) {
@@ -180,6 +194,8 @@ function displayAllTasks() {
         taskListContainer.append(renderTask(task));
     });
 }
+
+/* == INIT == */
 
 // When the page first loads...
 function init() {
