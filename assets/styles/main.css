@@ -1,11 +1,6 @@
-/* == Wireframing == */
-* {
-    /* outline: red solid 1px; */
-}
-
 /* == Variables == */
 :root {
-    --bg-color: gray;
+    --bg-color: #154734;
     --primary-color: green;
 }
 
@@ -41,4 +36,10 @@ div.task button {
 
 div.task label {
     display: block;
+}
+
+/* == MD Bootstrap == */
+/* This overrides the color for all states, does not adjust the palette */
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #a6192e !important; 
 }
