@@ -44,3 +44,16 @@ function renderAllTasks() {
         $("#task-list").append(renderTask(task));
     });
 }
+
+// Render the weather data
+function renderWeatherData(data) {
+    $("#weather-display").text(`Weather is ${data.weather[0].main}`);
+}
+
+// Render the dad joke
+function renderDadJoke(dadJoke) {
+    dadJoke = dadJoke[0];
+    
+    $("#joke-setup").text(dadJoke.setup);
+    $("#joke-punchline").text(dadJoke.punchline);
+}

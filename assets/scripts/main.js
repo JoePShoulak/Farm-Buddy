@@ -120,9 +120,7 @@ function saveToStorage() {
     localStorage.setItem("tasks", JSON.stringify(taskList));
 }
 
-/* == INIT == */
-var taskList = loadFromStorage(); // Load all our tasks from storage
-
+// Reset localStorage with dummy data
 function resetLocalStorage() {
     localStorage.clear(); // Clear storage
     taskList = testTasks; // Overrite loaded data with testData
@@ -131,26 +129,45 @@ function resetLocalStorage() {
     saveToStorage();
 }
 
-function renderWeatherData(data) {
-
-    $("#weather-display").text(`Weather is ${data.weather[0].main}`);
+/* == API FUNCTIONS == */
+// Get dad joke API data
+async function getDadJoke() {
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': 'dd51b13c60mshcfa44cb1124b33fp109983jsnb399edffa700',
+            'X-RapidAPI-Host': 'dad-jokes.p.rapidapi.com'
+        }
+    };
+    
+    return fetch('https://dad-jokes.p.rapidapi.com/random/joke', options)
+        .then(response => response.json())
+        .then(response => response.body)
 }
 
+// Get weather API data
+async function getWeatherData() {
+    var apiurl = "https://api.openweathermap.org/data/2.5/weather?q=Corcoran,mn,us&units=imperial&appid=fe78b54641e53796124286d599942e78";
+    return fetch(apiurl)
+      .then(response => { return response.json(); })
+      .then(data => {return data});
+}
+
+/* == INIT == */
+var taskList = loadFromStorage(); // Load all our tasks from storage
+
 // When the page first loads...
-function init() {
+async function init() {
     // This is only for if I need to repop my localStorage data with some nice test data
     const debug = true;
     if (debug) {$("footer").append($("<button>").text("Reset Data").on("click", resetLocalStorage))}
     
     // Display all tasks
     renderAllTasks();
-
-    // Weather API
-    var apiurl = "https://api.openweathermap.org/data/2.5/weather?q=Corcoran,mn,us&units=imperial&appid=fe78b54641e53796124286d599942e78";
-    fetch(apiurl)
-      .then(response => { return response.json(); })
-      .then(data => {renderWeatherData(data)});
-
+    
+    // Render APIS
+    renderWeatherData(await getWeatherData());
+    renderDadJoke(await getDadJoke());
 }
 
 // Run this once when the page first loads
