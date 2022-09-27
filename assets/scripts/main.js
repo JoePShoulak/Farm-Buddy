@@ -131,16 +131,9 @@ function resetLocalStorage() {
     saveToStorage();
 }
 
-// Throw taskList to remoteStorage
-function throwRemoteData() {
-    
-}
+function renderWeatherData(data) {
 
-// Fetch taskList from remoteStorage
-function fetchRemoteData() {
-    fetch("http://localhost:5000/tasks")
-        .then(response => { return response.json(); })
-        .then(data => { console.log(data) });
+    $("#weather-display").text(`Weather is ${data.weather[0].main}`);
 }
 
 // When the page first loads...
@@ -148,10 +141,16 @@ function init() {
     // This is only for if I need to repop my localStorage data with some nice test data
     const debug = true;
     if (debug) {$("footer").append($("<button>").text("Reset Data").on("click", resetLocalStorage))}
-    if (debug) {$("footer").append($("<button>").text("Test API").on("click", throwRemoteData))}
     
     // Display all tasks
     renderAllTasks();
+
+    // Weather API
+    var apiurl = "https://api.openweathermap.org/data/2.5/weather?q=Corcoran,mn,us&units=imperial&appid=fe78b54641e53796124286d599942e78";
+    fetch(apiurl)
+      .then(response => { return response.json(); })
+      .then(data => {renderWeatherData(data)});
+
 }
 
 // Run this once when the page first loads
