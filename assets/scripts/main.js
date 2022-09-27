@@ -15,7 +15,7 @@ function deleteTask() {
     taskList = taskList.filter(t => t.id != taskBeingEditedID);
 
     renderAllTasks();
-    saveToStorage(taskList);
+    saveToStorage();
 }
 
 // Mark a task as complete
@@ -24,7 +24,7 @@ function completeTask() {
     taskList[taskListIndex].completed = true;
 
     renderAllTasks();
-    saveToStorage(taskList);
+    saveToStorage();
 }
 
 // Update the task object where it sits in the array
@@ -37,7 +37,7 @@ function updateTask() {
     taskList[taskListIndex] = data; // Update the data where it sits
 
     renderAllTasks(); // Re-render everything
-    saveToStorage(taskList);
+    saveToStorage();
 }
 
 // Handle the creation of a new task
@@ -78,11 +78,11 @@ function taskClicked(event) {
 
 // Dynamically return a subset of all tasks that match the current filters
 function getFilteredTasks() {
-    var filteredList = taskList;
+    var filteredList = taskList; // Make a copy of our list
 
-    Object.keys(filter).forEach(key => {
-        if (filter[key]) {
-            filteredList = filteredList.filter(t => t[key])
+    Object.keys(filter).forEach(key => { // For each thing we might be filtering on...
+        if (filter[key]) { //  If it's an active filter...
+            filteredList = filteredList.filter(t => t[key]) // Refilter our list based on it
         }
     });
 
@@ -98,7 +98,7 @@ function updateFilter(event) {
     filter[filterKey] = $(event.target).is(":checked"); // Update the filter value to the state of the checkbox
 
     renderAllTasks(); // Rerender all tasks
-    saveToStorage(taskList);
+    saveToStorage();
 }
 
 /* == EVENT LISTENERS == */
@@ -116,26 +116,31 @@ function loadFromStorage() {
 }
 
 // Save our tasks to localStorage
-function saveToStorage(data) {
-    localStorage.setItem("tasks", JSON.stringify(data));
+function saveToStorage() {
+    localStorage.setItem("tasks", JSON.stringify(taskList));
 }
 
 /* == INIT == */
-var taskList = loadFromStorage();
+var taskList = loadFromStorage(); // Load all our tasks from storage
+/* This needs to be done in global instead of init() even though init() runs
+   immediately because other files need to know the actual taskList before
+   running. This seems to work, and although it's not my preferred practice
+   (I would have left `var tasklist;`), I don't think it's wrong */
 
 // When the page first loads...
 function init() {
     // This is only for if I need to repop my localStorage data with some nice test data
     var resetLocalStorage = false;
     if (resetLocalStorage) {
-        localStorage.clear();
+        localStorage.clear(); // Clear storage
 
-        saveToStorage(testTasks);
-        taskList = testTasks;
+        saveToStorage(testTasks); // Save testData to storage
+        taskList = testTasks; // Overrite loaded data with testData
 
         // Display all tasks
-        renderAllTasks();
     }
+
+    renderAllTasks();
 }
 
 // Run this once when the page first loads
