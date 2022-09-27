@@ -140,7 +140,7 @@ function throwRemoteData() {
 function fetchRemoteData() {
     fetch("http://localhost:5000/tasks")
         .then(response => { return response.json(); })
-        .then(data => { taskList = data });
+        .then(data => { console.log(data) });
 }
 
 // When the page first loads...
