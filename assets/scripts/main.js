@@ -155,6 +155,9 @@ async function getWeatherData() {
 
 /* == INIT == */
 var taskList = loadFromStorage(); // Load all our tasks from storage
+if (taskList == null) {
+    taskList = testTasks;
+}
 
 // When the page first loads...
 async function init() {
