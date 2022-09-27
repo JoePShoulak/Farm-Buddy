@@ -139,14 +139,8 @@ function resetLocalStorage() {
 // When the page first loads...
 function init() {
     // This is only for if I need to repop my localStorage data with some nice test data
-    var debug = true;
-    if (debug) {
-        $("footer").append(
-            $("<button>")
-                .text("Reset Data")
-                .on("click", resetLocalStorage)
-        )
-    }
+    const debug = true;
+    if (debug) {$("footer").append($("<button>").text("Reset Data").on("click", resetLocalStorage))}
     
     // Display all tasks
     renderAllTasks();
