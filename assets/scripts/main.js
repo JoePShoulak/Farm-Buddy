@@ -8,8 +8,6 @@ var filter = {
     weather: false,
 }
 
-// Where we store all our tasks while working with them
-
 /* == MAIN EDITING FUNCTIONS - DELETE, COMPLETE, UPDATE, NEW == */
 
 // Delete the task with the specified ID
@@ -112,11 +110,12 @@ $(".close-modal").on("click", filterOutTrashData);
 $(".filter").on("click", updateFilter);
 
 /* == DB FUNCTIONS == */
-
+// Load our tasks from localStorage
 function loadFromStorage() {
     return JSON.parse(localStorage.getItem("tasks"));
 }
 
+// Save our tasks to localStorage
 function saveToStorage(data) {
     localStorage.setItem("tasks", JSON.stringify(data));
 }
@@ -126,14 +125,16 @@ var taskList = loadFromStorage();
 
 // When the page first loads...
 function init() {
-    // Display all tasks
-    renderAllTasks();
-
+    // This is only for if I need to repop my localStorage data with some nice test data
     var resetLocalStorage = false;
     if (resetLocalStorage) {
         localStorage.clear();
 
         saveToStorage(testTasks);
+        taskList = testTasks;
+
+        // Display all tasks
+        renderAllTasks();
     }
 }
 
