@@ -3,86 +3,12 @@
 // Global state variable -- this feels dirty
 var taskBeingEditedID = null;
 
-// Frequent DOM elements
-var taskListContainer = $("#task-list");
-
 // Filter states
 var filter = {
     weather: false,
 }
 
-// Test data
-var testTask = {
-    id: 1,
-    title: "Testing",
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-
-    dueDate: moment().format("YYYY-MM-DD"),
-    weather: true,
-    completed: false,
-}
-
-var testTask2 = {
-    id: 2,
-    title: "Testing 2",
-    description: "Wassup Wassup Wassup Wassup Wassup.",
-
-    dueDate: moment().format("YYYY-MM-DD"),
-    weather: false,
-    completed: true,
-}
-
 // Where we store all our tasks while working with them
-var taskList = [testTask, testTask2];
-
-/* == HELPER FUNCTIONS == */
-
-// Get the object id from an HTML element containing the data for a task object
-function getIdFromTaskElement(taskElement) {
-    return taskElement.find(".id")[0].innerHTML;
-}
-
-// Read through the TaskList array and remove any data that has not been fully instantiated
-function filterOutTrashData() {
-   taskList = taskList.filter(t => t.title != undefined);
-}
-
-/* == FORM HANDLING FUNCTIONS == */
-
-// Populate the form with the data from the task object
-function autofillForm() {
-    var data = taskList.find(e => e.id == taskBeingEditedID);
-
-    $("#form-title").val(data.title);
-    $("#form-description").val(data.description);
-
-    $("#form-due-date").val(data.dueDate);
-    $("#form-weather").prop('checked', data.weather);
-    $("#form-completed").prop('checked', data.completed);
-}
-
-// Clear the form 
-function clearForm() {
-    $("#form-title").val("");
-    $("#form-description").val("");
-
-    $("#form-due-date").val("");
-    $("#form-weather").prop('checked', false);
-    $("#form-completed").prop('checked', false);
-}
-
-// Get the object data from the update form
-function getFormData() {
-    return {
-        title: $("#form-title").val(),
-        description: $("#form-description").val(),
-        id: taskBeingEditedID,
-    
-        dueDate: $("#form-due-date").val(),
-        weather: $("#form-weather").is(":checked"),
-        completed: $("#form-completed").is(":checked"),
-    };
-}
 
 /* == MAIN EDITING FUNCTIONS - DELETE, COMPLETE, UPDATE, NEW == */
 
@@ -91,6 +17,7 @@ function deleteTask() {
     taskList = taskList.filter(t => t.id != taskBeingEditedID);
 
     renderAllTasks();
+    saveToStorage(taskList);
 }
 
 // Mark a task as complete
@@ -99,6 +26,7 @@ function completeTask() {
     taskList[taskListIndex].completed = true;
 
     renderAllTasks();
+    saveToStorage(taskList);
 }
 
 // Update the task object where it sits in the array
@@ -111,6 +39,7 @@ function updateTask() {
     taskList[taskListIndex] = data; // Update the data where it sits
 
     renderAllTasks(); // Re-render everything
+    saveToStorage(taskList);
 }
 
 // Handle the creation of a new task
@@ -147,43 +76,7 @@ function taskClicked(event) {
     }
 }
 
-/* == RENDERING FUNCTIONS == */
-
-// Render simple label/span data in the DOM
-function renderData(label, value) {
-    var span = $("<span>").text(value);
-
-    if (label == "ID") {span.addClass("id");}
-
-    return $("<label>").text(`${label}: `).append(span);
-}
-
-// Render a task by appending it to the DOM with all the correct elements
-function renderTask(task) {
-    return $("<div>").addClass("task card column col-5").append(
-        $("<div>").addClass("card-body")
-
-            // Title and description
-            .append($("<h5>").addClass("card-title").text(task.title))
-            .append($("<p>").text(task.description))
-            
-            // Simple data (<label>Label: <span>Value</span></label>)
-            .append(renderData("ID", task.id)) // ID            
-            .append(renderData("Needs nice weather", task.weather)) // Weather
-            .append(renderData("Due date", task.dueDate)) // Due Date   
-            .append(renderData("Completed", task.completed)) // Completed
-            
-            // Buttons for Mark as Complete, Update, and Delete
-            .append($("<button>").addClass("btn btn-primary").text("Complete"))
-            .append($("<button>")
-                .addClass("btn btn-secondary")
-                .text("Update")
-                .attr("data-mdb-toggle","modal")
-                .attr("data-mdb-target", "#update-task-modal")
-            )
-            .append($("<button>").addClass("btn btn-secondary").text("Delete"))
-    )
-}
+/* == FILTER FUNCTIONS == */
 
 // Dynamically return a subset of all tasks that match the current filters
 function getFilteredTasks() {
@@ -198,15 +91,6 @@ function getFilteredTasks() {
     return filteredList;
 }
 
-// Display all the tasks by emptying the DOM container and re-appending all the elements
-function renderAllTasks() {
-    taskListContainer.empty();
-
-    getFilteredTasks().forEach(task => {
-        taskListContainer.append(renderTask(task));
-    });
-}
-
 // Update the filter object whenever a filter input element is clicked
 function updateFilter(event) {
     if (event.target.tagName != "INPUT") {return;} // If it's not an input, quit (probably redundant)
@@ -216,21 +100,46 @@ function updateFilter(event) {
     filter[filterKey] = $(event.target).is(":checked"); // Update the filter value to the state of the checkbox
 
     renderAllTasks(); // Rerender all tasks
+    saveToStorage(taskList);
 }
 
 /* == EVENT LISTENERS == */
-taskListContainer.on("click", taskClicked);
+$("#task-list").on("click", taskClicked);
 $("#form-submit").on("click", updateTask);
 $("#new-task").on("click", newTask);
+
 $(".close-modal").on("click", filterOutTrashData);
 $(".filter").on("click", updateFilter);
 
+/* == DB FUNCTIONS == */
+
+function loadFromStorage() {
+    var data = JSON.parse(localStorage.getItem("tasks"));
+
+    console.log(data);
+
+    return data;
+}
+
+function saveToStorage(data) {
+    localStorage.setItem("tasks", JSON.stringify(data));
+}
+
 /* == INIT == */
+
+var taskList = loadFromStorage();
 
 // When the page first loads...
 function init() {
     // Display all tasks
     renderAllTasks();
+
+    var resetLocalStorage = false;
+    if (resetLocalStorage) {
+        localStorage.clear();
+
+        saveToStorage(testTasks);
+    }
 }
 
 // Run this once when the page first loads
