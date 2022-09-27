@@ -67,6 +67,7 @@ function taskClicked(event) {
     // If we're updating a task...
     if (button.text() == "Update") {
         autofillForm(); // The task is updated by the submit form button of the modal opened by this same click action
+        // TODO: Find out of an async can be used to tie this to the modal form
     } else if (button.text() == "Delete") {
         deleteTask();
     } else if (button.text() == "Complete") {
