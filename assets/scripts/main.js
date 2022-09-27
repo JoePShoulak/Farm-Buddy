@@ -127,19 +127,27 @@ var taskList = loadFromStorage(); // Load all our tasks from storage
    running. This seems to work, and although it's not my preferred practice
    (I would have left `var tasklist;`), I don't think it's wrong */
 
+function resetLocalStorage() {
+    localStorage.clear(); // Clear storage
+    taskList = testTasks; // Overrite loaded data with testData
+    
+    renderAllTasks();
+    saveToStorage();
+}
+
 // When the page first loads...
 function init() {
     // This is only for if I need to repop my localStorage data with some nice test data
-    var resetLocalStorage = false;
-    if (resetLocalStorage) {
-        localStorage.clear(); // Clear storage
-
-        saveToStorage(testTasks); // Save testData to storage
-        taskList = testTasks; // Overrite loaded data with testData
-
-        // Display all tasks
+    var debug = true;
+    if (debug) {
+        $("footer").append(
+            $("<button>")
+                .text("Reset Data")
+                .on("click", resetLocalStorage)
+        )
     }
-
+    
+    // Display all tasks
     renderAllTasks();
 }
 
