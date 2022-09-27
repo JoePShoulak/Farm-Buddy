@@ -66,8 +66,8 @@ function taskClicked(event) {
     
     // If we're updating a task...
     if (button.text() == "Update") {
-        autofillForm(); // The task is updated by the submit form button of the modal opened by this same click action
-        // TODO: Find out of an async can be used to tie this to the modal form
+        autofillForm();
+        // The task is updated by the submit form button of the modal opened by this same click action
     } else if (button.text() == "Delete") {
         deleteTask();
     } else if (button.text() == "Complete") {
@@ -99,7 +99,6 @@ function updateFilter(event) {
     filter[filterKey] = $(event.target).is(":checked"); // Update the filter value to the state of the checkbox
 
     renderAllTasks(); // Rerender all tasks
-    saveToStorage();
 }
 
 /* == EVENT LISTENERS == */
@@ -123,10 +122,6 @@ function saveToStorage() {
 
 /* == INIT == */
 var taskList = loadFromStorage(); // Load all our tasks from storage
-/* This needs to be done in global instead of init() even though init() runs
-   immediately because other files need to know the actual taskList before
-   running. This seems to work, and although it's not my preferred practice
-   (I would have left `var tasklist;`), I don't think it's wrong */
 
 function resetLocalStorage() {
     localStorage.clear(); // Clear storage
