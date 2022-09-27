@@ -159,7 +159,7 @@ var taskList = loadFromStorage(); // Load all our tasks from storage
 // When the page first loads...
 async function init() {
     // This is only for if I need to repop my localStorage data with some nice test data
-    const debug = true;
+    const debug = false;
     if (debug) {$("footer").append($("<button>").text("Reset Data").on("click", resetLocalStorage))}
     
     // Display all tasks
