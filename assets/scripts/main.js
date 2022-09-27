@@ -160,7 +160,7 @@ function renderData(label, value) {
 
 // Render a task by appending it to the DOM with all the correct elements
 function renderTask(task) {
-    return $("<div>").addClass("task card column col-4").append(
+    return $("<div>").addClass("task card column col-5").append(
         $("<div>").addClass("card-body")
 
             // Title and description
@@ -169,7 +169,7 @@ function renderTask(task) {
             
             // Simple data (<label>Label: <span>Value</span></label>)
             .append(renderData("ID", task.id)) // ID            
-            .append(renderData("Weather", task.weather)) // Weather
+            .append(renderData("Needs nice weather", task.weather)) // Weather
             .append(renderData("Due date", task.dueDate)) // Due Date   
             .append(renderData("Completed", task.completed)) // Completed
             
@@ -185,19 +185,23 @@ function renderTask(task) {
     )
 }
 
+function getFilteredTasks() {
+    var filteredList = taskList;
+
+    Object.keys(filter).forEach(key => {
+        if (filter[key]) {
+            filteredList = filteredList.filter(t => t[key])
+        }
+    });
+
+    return filteredList;
+}
+
 // Display all the tasks by emptying the DOM container and re-appending all the elements
 function displayAllTasks() {
     taskListContainer.empty();
 
-    var filteredList;
-
-    if (filter.weather) {
-        filteredList = taskList.filter(t => t.weather);
-    } else {
-        filteredList = taskList;
-    }
-
-    filteredList.forEach(task => {
+    getFilteredTasks().forEach(task => {
         taskListContainer.append(renderTask(task));
     });
 }
@@ -205,16 +209,9 @@ function displayAllTasks() {
 function updateFilter(event) {
     if (event.target.tagName != "INPUT") {return;} // If it's not an input, quit (probably redundant)
     
-    switch (event.target.id) {
-        case "weather-filter":
-            filter.weather = $(event.target).is(":checked");
-            break;
-    
-        default:
-            break;
+    if (event.target.id == "weather-filter") {
+        filter.weather = $(event.target).is(":checked");
     }
-
-    console.log(filter);
 
     displayAllTasks();
 }
