@@ -114,11 +114,7 @@ $(".filter").on("click", updateFilter);
 /* == DB FUNCTIONS == */
 
 function loadFromStorage() {
-    var data = JSON.parse(localStorage.getItem("tasks"));
-
-    console.log(data);
-
-    return data;
+    return JSON.parse(localStorage.getItem("tasks"));
 }
 
 function saveToStorage(data) {
