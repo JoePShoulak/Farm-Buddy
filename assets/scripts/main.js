@@ -90,7 +90,7 @@ function getFormData() {
 function deleteTask() {
     taskList = taskList.filter(t => t.id != taskBeingEditedID);
 
-    displayAllTasks();
+    renderAllTasks();
 }
 
 // Mark a task as complete
@@ -98,7 +98,7 @@ function completeTask() {
     var taskListIndex = taskList.findIndex(e => e.id == taskBeingEditedID);
     taskList[taskListIndex].completed = true;
 
-    displayAllTasks();
+    renderAllTasks();
 }
 
 // Update the task object where it sits in the array
@@ -110,7 +110,7 @@ function updateTask() {
 
     taskList[taskListIndex] = data; // Update the data where it sits
 
-    displayAllTasks(); // Re-render everything
+    renderAllTasks(); // Re-render everything
 }
 
 // Handle the creation of a new task
@@ -185,6 +185,7 @@ function renderTask(task) {
     )
 }
 
+// Dynamically return a subset of all tasks that match the current filters
 function getFilteredTasks() {
     var filteredList = taskList;
 
@@ -198,7 +199,7 @@ function getFilteredTasks() {
 }
 
 // Display all the tasks by emptying the DOM container and re-appending all the elements
-function displayAllTasks() {
+function renderAllTasks() {
     taskListContainer.empty();
 
     getFilteredTasks().forEach(task => {
@@ -206,14 +207,15 @@ function displayAllTasks() {
     });
 }
 
+// Update the filter object whenever a filter input element is clicked
 function updateFilter(event) {
     if (event.target.tagName != "INPUT") {return;} // If it's not an input, quit (probably redundant)
-    
-    if (event.target.id == "weather-filter") {
-        filter.weather = $(event.target).is(":checked");
-    }
 
-    displayAllTasks();
+    var filterKey = event.target.id.split("-")[0]; // Grab the correct key to update the filter objecct
+    
+    filter[filterKey] = $(event.target).is(":checked"); // Update the filter value to the state of the checkbox
+
+    renderAllTasks(); // Rerender all tasks
 }
 
 /* == EVENT LISTENERS == */
@@ -228,7 +230,7 @@ $(".filter").on("click", updateFilter);
 // When the page first loads...
 function init() {
     // Display all tasks
-    displayAllTasks();
+    renderAllTasks();
 }
 
 // Run this once when the page first loads
