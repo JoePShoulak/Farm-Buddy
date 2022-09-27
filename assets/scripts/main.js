@@ -122,7 +122,6 @@ function saveToStorage(data) {
 }
 
 /* == INIT == */
-
 var taskList = loadFromStorage();
 
 // When the page first loads...
