@@ -131,11 +131,24 @@ function resetLocalStorage() {
     saveToStorage();
 }
 
+// Throw taskList to remoteStorage
+function throwRemoteData() {
+    
+}
+
+// Fetch taskList from remoteStorage
+function fetchRemoteData() {
+    fetch("http://localhost:5000/tasks")
+        .then(response => { return response.json(); })
+        .then(data => { taskList = data });
+}
+
 // When the page first loads...
 function init() {
     // This is only for if I need to repop my localStorage data with some nice test data
     const debug = true;
     if (debug) {$("footer").append($("<button>").text("Reset Data").on("click", resetLocalStorage))}
+    if (debug) {$("footer").append($("<button>").text("Test API").on("click", throwRemoteData))}
     
     // Display all tasks
     renderAllTasks();
