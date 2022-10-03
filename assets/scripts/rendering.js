@@ -57,3 +57,26 @@ function renderDadJoke(dadJoke) {
     $("#joke-setup").text(dadJoke.setup);
     $("#joke-punchline").text(dadJoke.punchline);
 }
+
+function renderAllForecastData(data) {
+console.log(data.response[0].periods)
+
+    data.response[0].periods.forEach(forecast => {
+        $("#forecast-list").append(renderForecast(forecast));
+    });
+}
+
+// Render a task by appending it to the DOM with all the correct elements
+function renderForecast(forecast) {
+    return $("<div>").addClass("task card column col-5").append(
+        $("<div>").addClass("card-body")
+
+            // Title and description
+            .append($("<h5>").addClass("card-title").text(forecast.dateTimeISO.split("T")[0]))
+            .append($("<p>").text(forecast.weather))
+            
+            // Simple data (<label>Label: <span>Value</span></label>)
+            .append(renderData("High", forecast.maxTempF)) // ID
+            .append(renderData("Low", forecast.minTempF)) // ID
+    )
+}
