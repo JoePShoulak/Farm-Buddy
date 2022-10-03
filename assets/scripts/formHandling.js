@@ -13,7 +13,7 @@ function autofillForm() {
 }
 
 // Clear the form 
-// TODO: Try this: https://stackoverflow.com/questions/6364289/clear-form-fields-with-jquery
+// TODO: Clean up the ClearForm Function https://stackoverflow.com/questions/6364289/clear-form-fields-with-jquery
 function clearForm() {
     $("#form-title").val("");
     $("#form-description").val("");
