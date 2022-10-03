@@ -47,7 +47,7 @@ function renderAllTasks() {
 
 // Render the weather data
 function renderWeatherData(data) {
-    $("#weather-display").text(`Weather is ${data.weather[0].main}`);
+    $("#weather-display").text(`Weather is ${data.response.ob.weather}`);
 }
 
 // Render the dad joke

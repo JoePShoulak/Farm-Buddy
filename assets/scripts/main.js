@@ -147,10 +147,17 @@ async function getDadJoke() {
 
 // Get weather API data
 async function getWeatherData() {
-    var apiurl = "https://api.openweathermap.org/data/2.5/weather?q=Corcoran,mn,us&units=imperial&appid=fe78b54641e53796124286d599942e78";
-    return fetch(apiurl)
-      .then(response => { return response.json(); })
-      .then(data => {return data});
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': 'dd51b13c60mshcfa44cb1124b33fp109983jsnb399edffa700',
+            'X-RapidAPI-Host': 'aerisweather1.p.rapidapi.com'
+        }
+    };
+    
+    return fetch('https://aerisweather1.p.rapidapi.com/observations/corcoran,mn', options)
+        .then(response => response.json())
+        .catch(err => console.error(err));
 }
 
 /* == INIT == */
@@ -161,10 +168,6 @@ if (taskList == null) {
 
 // When the page first loads...
 async function init() {
-    // This is only for if I need to repop my localStorage data with some nice test data
-    const debug = false;
-    if (debug) {$("footer").append($("<button>").text("Reset Data").on("click", resetLocalStorage))}
-    
     // Display all tasks
     renderAllTasks();
     
