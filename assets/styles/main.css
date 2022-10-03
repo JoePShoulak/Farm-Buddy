@@ -45,7 +45,7 @@ div.task label {
 
 /* == MD Bootstrap == */
 /* This overrides the color for all states, does not adjust the palette */
-/* TODO: Try this: https://stackoverflow.com/questions/73861601/changing-the-primary-bootstrap-color-without-scss */
+/* TODO: Update the color palette with SCSS https://stackoverflow.com/questions/73861601/changing-the-primary-bootstrap-color-without-scss */
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
     background-color: #a6192e !important; 
 }
