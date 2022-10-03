@@ -136,6 +136,7 @@ function resetLocalStorage() {
 
 /* == API FUNCTIONS == */
 // Get dad joke API data
+// https://rapidapi.com/KegenGuyll/api/dad-jokes/
 async function getDadJoke() {
     const options = {
         method: 'GET',
@@ -151,6 +152,7 @@ async function getDadJoke() {
 }
 
 // Get weather API data
+// https://rapidapi.com/aerisweather-aerisweather/api/aerisweather1
 async function getWeatherData() {
     const options = {
         method: 'GET',

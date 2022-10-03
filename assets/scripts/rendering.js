@@ -68,12 +68,14 @@ console.log(data.response[0].periods)
 
 // Render a task by appending it to the DOM with all the correct elements
 function renderForecast(forecast) {
-    return $("<div>").addClass("task card column col-5").append(
+    return $("<div>").addClass("task card column col-3").append(
         $("<div>").addClass("card-body")
 
             // Title and description
             .append($("<h5>").addClass("card-title").text(forecast.dateTimeISO.split("T")[0]))
             .append($("<p>").text(forecast.weather))
+
+            .append($("<img>").attr("src", `https://cdn.aerisapi.com/wxicons/v2/${forecast.icon}`))
             
             // Simple data (<label>Label: <span>Value</span></label>)
             .append(renderData("High", forecast.maxTempF)) // ID
