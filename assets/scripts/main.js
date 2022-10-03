@@ -6,6 +6,7 @@ var taskBeingEditedID = null;
 // Filter states
 var filter = {
     weather: false,
+    completed: false
 }
 
 /* == MAIN EDITING FUNCTIONS - DELETE, COMPLETE, UPDATE, NEW == */
@@ -78,8 +79,12 @@ function taskClicked(event) {
 /* == FILTER FUNCTIONS == */
 
 // Dynamically return a subset of all tasks that match the current filters
-function getFilteredTasks() {
+function getFilteredTasks(archive=false) {
     var filteredList = taskList; // Make a copy of our list
+
+    if (archive) {
+        filteredList = filteredList.filter(t => t.completed)
+    }
 
     Object.keys(filter).forEach(key => { // For each thing we might be filtering on...
         if (filter[key]) { //  If it's an active filter...
@@ -168,6 +173,10 @@ if (taskList == null) {
 
 // When the page first loads...
 async function init() {
+    // This is only for if I need to repop my localStorage data with some nice test data
+    // const debug = true;
+    // if (debug) {$("footer").append($("<button>").text("Reset Data").on("click", resetLocalStorage))}
+
     // Display all tasks
     renderAllTasks();
     
