@@ -1,6 +1,8 @@
 # Farm-Buddy
 Farm Buddy is a to-do app that lets you specify whether its a rainy day task, two-person tasks, due-dates, and more. 
 
+![Screenshot](https://user-images.githubusercontent.com/1021647/193609563-5c389def-e579-4ff2-8c41-7ecd849f6132.png)
+
 [Live Link](https://joepshoulak.github.io/Farm-Buddy/)
 
 ## About
