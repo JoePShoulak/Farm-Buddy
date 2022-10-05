@@ -14,7 +14,7 @@ header, footer {
     color: white;
 }
 
-header a {
+header a, footer a {
     text-decoration: none;
     color: white;
 }
@@ -26,6 +26,7 @@ main {
 
 footer {
     justify-content: center;
+    text-align: center;
 }
 
 
